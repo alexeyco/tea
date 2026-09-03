@@ -1,0 +1,41 @@
+{
+  "name": "@alexeyco/tea",
+  "version": "0.1.0",
+  "description": "Forgejo / Gitea skill for coding agents",
+  "keywords": [
+    "ai",
+    "forgejo",
+    "gitea",
+    "opencode",
+    "opencode-plugin",
+    "pi",
+    "pi-package",
+    "pi-skill",
+    "skill",
+    "tea"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./opencode/index.ts"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "beta"
+  },
+  "files": [
+    "skills",
+    "opencode",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexeyco/tea.git"
+  },
+  "pi": {
+    "skills": [
+      "./skills"
+    ],
+    "image": "https://raw.githubusercontent.com/alexeyco/tea/master/docs/gallery/terminal.png"
+  }
+}
