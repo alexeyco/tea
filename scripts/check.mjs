@@ -25,13 +25,21 @@ if (!pkg.keywords?.includes("pi-package"))
   fail('package.json: keywords must include "pi-package"');
 if (!pkg.keywords?.includes("opencode"))
   fail('package.json: keywords must include "opencode"');
+if (JSON.stringify(pkg).includes("@opencode-ai"))
+  fail('package.json: must not reference "@opencode-ai" (v1 fully dropped)');
 if (pkg.type !== "module") fail('package.json: type must be "module"');
 if (pkg.exports?.["."] !== "./opencode/index.ts")
   fail('package.json: exports["."] must be "./opencode/index.ts"');
 if (!pkg.files?.includes("opencode"))
   fail('package.json: files must include "opencode"');
-if (!pkg.dependencies?.["@opencode-ai/plugin"])
-  fail('package.json: dependencies must include "@opencode-ai/plugin"');
+if (!pkg.dependencies?.["@opencode/plugin"])
+  fail('package.json: dependencies must include "@opencode/plugin"');
+if (pkg.dependencies?.["@opencode-ai/plugin"])
+  fail('package.json: v1 dependency "@opencode-ai/plugin" must be removed');
+if (!pkg.scripts?.typecheck)
+  fail('package.json: scripts must include "typecheck"');
+if (!pkg.devDependencies?.typescript)
+  fail('package.json: devDependencies must include "typescript"');
 
 // --- skills ---
 
@@ -80,6 +88,10 @@ if (!existsSync("opencode/index.ts")) {
     fail("opencode/index.ts: must use Plugin.define");
   if (!plugin.includes("skills/tea/SKILL.md"))
     fail("opencode/index.ts: must reference skills/tea/SKILL.md");
+  if (plugin.includes("@opencode-ai"))
+    fail(
+      'opencode/index.ts: must not reference "@opencode-ai" (v1 fully dropped)',
+    );
 }
 
 if (failed) process.exit(1);

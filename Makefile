@@ -10,5 +10,10 @@ fmt: ## Format sources (prettier)
 	@npx --yes prettier@3 --write .
 
 .PHONY: check
-check: ## Run repo sanity checks (same as CI)
+check: node_modules ## Run repo sanity checks (same as CI)
 	@node scripts/check.mjs
+	@npm run typecheck --silent
+
+node_modules: package.json package-lock.json
+	@npm ci --silent
+	@touch node_modules
