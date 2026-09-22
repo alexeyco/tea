@@ -3,8 +3,7 @@
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { Plugin } from "@opencode-ai/plugin";
-import type { Skill } from "@opencode-ai/plugin";
+import { Plugin, Skill } from "@opencode/plugin";
 
 const skillPath = fileURLToPath(
   new URL("../skills/tea/SKILL.md", import.meta.url),
@@ -19,22 +18,25 @@ export default Plugin.define({
       const match = source.match(/^---\n([\s\S]*?)\n---\n/);
       if (!match) throw new Error(`tea skill: no frontmatter in ${skillPath}`);
 
-      const frontmatter = match[1];
+      const frontmatter = match[1]!;
       const name =
         frontmatter.match(/^name:\s*(.+)\s*$/m)?.[1]?.trim() ?? "tea";
       const description =
         frontmatter.match(/^description:\s*(.+)\s*$/m)?.[1]?.trim() ?? "";
       const content = source.slice(match[0].length);
 
-      // Skill.Info uses branded strings (Skill.ID, Skill.Name, AbsolutePath)
-      // that cannot be constructed from the public API — assert the shape.
-      editor.add({
-        id: "tea",
-        name,
-        description,
-        location: skillPath,
-        content,
-      } as Skill.Info);
+      // Skill.ID and Skill.Name are constructed via their Schema.make
+      // constructors; AbsolutePath has no public constructor so we assert
+      // the brand on the known-absolute path string.
+      editor.add(
+        Skill.Info.make({
+          id: Skill.ID.make("tea"),
+          name: Skill.Name.make(name),
+          description,
+          path: skillPath as Skill.Info["path"],
+          content,
+        }),
+      );
     });
 
     await ctx.skill.reload();

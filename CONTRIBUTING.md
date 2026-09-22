@@ -11,17 +11,20 @@
 
 Edit `skills/tea/SKILL.md` — it is shared by both agents. pi picks it up on
 the next session or `/reload`; OpenCode loads it through the plugin wrapper
-(`opencode/index.ts`).
+(`opencode/index.ts`), which targets OpenCode v2 (`@opencode/plugin`).
 
 Test locally without publishing (local installs are not copied, edits are live):
 
 ```sh
 pi install /absolute/path/to/tea           # pi
-opencode2 plugin add /absolute/path/to/tea # OpenCode
+opencode plugin add /absolute/path/to/tea  # OpenCode
 ```
 
-Format with `make fmt` (prettier). Run the sanity checks before committing —
-same as CI:
+Format with `make fmt` (prettier). Run the checks before committing — same as
+CI. `make check` installs dependencies (pinned by the committed
+`package-lock.json`), runs the sanity checks (`scripts/check.mjs`) and
+typechecks the plugin (`npm run typecheck`, `tsc --noEmit` against
+`tsconfig.json`):
 
 ```sh
 make check
@@ -41,7 +44,8 @@ Fallback if `sips` cannot convert the SVG:
 ## Publishing
 
 1. Add a `CHANGELOG.md` entry for the new version.
-2. Bump `version` in `package.json` (semver).
+2. Bump `version` in `package.json` (semver) and refresh the committed
+   `package-lock.json` with `npm install`.
 3. Merge the PR to `master`.
 4. Tag and push the tag:
 
@@ -55,6 +59,6 @@ Fallback if `sips` cannot convert the SVG:
 Install for users:
 
 ```sh
-pi install npm:@alexeyco/tea           # pi
-opencode2 plugin add @alexeyco/tea     # OpenCode
+pi install npm:@alexeyco/tea        # pi
+opencode plugin add @alexeyco/tea   # OpenCode
 ```

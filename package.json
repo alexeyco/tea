@@ -1,6 +1,6 @@
 {
   "name": "@alexeyco/tea",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Forgejo / Gitea skill for coding agents",
   "keywords": [
     "ai",
@@ -20,12 +20,20 @@
     ".": "./opencode/index.ts"
   },
   "dependencies": {
-    "@opencode-ai/plugin": "beta"
+    "@opencode/plugin": "^2.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
   },
   "files": [
     "skills",
     "opencode",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "repository": {
