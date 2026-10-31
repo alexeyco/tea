@@ -4,6 +4,7 @@
     "noEmit": true,
     "target": "es2022",
     "module": "nodenext",
+    "types": ["node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
